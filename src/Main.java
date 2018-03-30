@@ -8,6 +8,10 @@ import java.util.ArrayList;
 public class Main {
 
 	public static void main(String[] args) {
+            
+//            char c = '\'';
+//            System.out.println(Integer.valueOf(c));
+            
 		
 		try{
 			ArrayList <String[]> lexic_table;

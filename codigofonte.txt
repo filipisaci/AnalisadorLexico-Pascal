@@ -1,10 +1,10 @@
-Program TESTE123;
+kflsçkskfjsdf Program TESTE123;
     Var X, Y, Z : Integer;
 Begin
     readln(X);
     readln(Y);
     X := 1000
-    Z := [(X * Y) + 15 * X];
+    Z := (X * Y);
     Writeln ('O RESULTADO ESTA OK');
 End;
 Procedure EXECUTE_TESTE(Interger I, String S)
