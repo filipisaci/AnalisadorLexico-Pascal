@@ -34,7 +34,7 @@ public class AnalisadorLexico {
 				while(c != '#'){
 					c = (char) bf.read();
 					if(!bf.ready()){
-						System.out.println("Erro: Comentário não fechado");
+						System.out.println("Erro: Comentário não fechado. Linha " + nLine);
 						break;
 					}
 				}
@@ -61,12 +61,12 @@ public class AnalisadorLexico {
 				if(check_token(c))
 					;//System.out.println("Identificador válido");
 				else
-					System.out.println("Erro: identificador inválido");
+					System.out.println("Erro: identificador inválido. Linha " + nLine);
 			}
 			else if(48 <= c && c <= 57){ //Verifica se C é um numero
 				if(check_number(c));
 				else{
-					System.out.println("Erro, Número inválido");
+					System.out.println("Erro, Número inválido. Linha " + nLine);
 					break;
 				}
 				
@@ -101,7 +101,7 @@ public class AnalisadorLexico {
 				}
 				
 			}else{
-				System.out.println("Erro desconhecido");
+				System.out.println("Erro desconhecido. Linha " + nLine);
 				break;
 			}
 			
@@ -144,8 +144,8 @@ public class AnalisadorLexico {
 				bf.reset();
 				break;
 			}
-			if(c == '#'){
-				while(c != '#')
+			if(c == '{'){
+				while(c != '}')
 					c = (char) bf.read();
 				if(!bf.ready()){
 					System.out.println("Erro: Comentário não fechado");
@@ -157,13 +157,14 @@ public class AnalisadorLexico {
 			word = word.concat(Character.toString(c));
 		}
 		
-		System.out.println("word: " + word);
+		//System.out.println("palavra: " + word);
 		
 		if(word.matches("\\w[\\w|\\d|\\_]*")){ //Representa um identificador válido, tanto para uma variável quanto para uma palavra chave
 			/**Verifica se é uma palavra chave, comparando-o com todas as possíveis palavras chaves**/
 			if(word.matches("[Bb]oolean") || word.matches("[Bb]egin") || word.matches("[Ii]nteger") || word.matches("[Ii]f") || word.matches("[Ee]lse") || 
 			word.matches("[Ee]nd") || word.matches("[Vv]ar") || word.matches("[Rr]eal") || word.matches("[Tt]hen") || word.matches("[Pp]rogram") ||
-			word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot"))
+			word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot") 
+                                || word.matches("[Bb]egin"))
 				add_key_word(word);
 			else if(word.matches("and")){
 				String[] s = {word, "Operador Multiplicativo", Integer.toString(nLine)};
@@ -257,27 +258,27 @@ public class AnalisadorLexico {
 			word = word.concat(Character.toString(c));
 		}
 		
-		System.out.println("word: " + word);
+		//System.out.println("word: " + word);
 		
 		if(word.matches("\\d+\\.\\d+")){
-			System.out.println("Numero Real");
+			//System.out.println("Numero Real");
 			String[] s = {word, "Número Real", Integer.toString(nLine)};
 			token_table.add(s);
 			final_state = true;
 		}else if(word.matches("\\d+")){
-			System.out.println("Numero Inteiro");
+			//System.out.println("Numero Inteiro");
 			String[] s = {word, "Número Inteiro", Integer.toString(nLine)};
 			token_table.add(s);
 			final_state = true;
 		}else if(word.matches("\\d+i[+-]\\d+")){
-			System.out.println("Numero Complexo");
+			//System.out.println("Numero Complexo");
 			String[] s = {word, "Número Complexo", Integer.toString(nLine)};
 			token_table.add(s);
 			final_state = true;
 		}
 		
 		if(aux == c){
-			System.out.println("Check id");
+			//System.out.println("Check id");
 			if(check_token(aux))
 				final_state = true;
 			else

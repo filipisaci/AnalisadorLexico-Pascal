@@ -23,8 +23,8 @@ public class Main {
 			arq.close();
 			file.close();
 			
-			AnalisadorSintatico as = new AnalisadorSintatico(lexic_table);
-			as.analisar();
+			//AnalisadorSintatico as = new AnalisadorSintatico(lexic_table);
+			//as.analisar();
 			
 		}catch(FileNotFoundException fnf){
 			System.out.println("Arquivo nao encontrado");
