@@ -1,0 +1,15 @@
+Program TESTE123;
+    Var X, Y, Z : Integer;
+Begin
+    readln(X);
+    readln(Y);
+    X := 1000
+    Z := [(X * Y) + 15 * X];
+    Writeln ('O RESULTADO ESTA OK');
+End;
+Procedure EXECUTE_TESTE(Interger I, String S)
+    Begin
+    If((I >= 150 Or S = 'TESTE') And I < 200)Then
+    Begin
+    Writeln ('PASSOU NO TESTE');
+End;
