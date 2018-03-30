@@ -130,7 +130,8 @@ public class AnalisadorLexico {
 	
 	/**Verificar o identificador de palavras chaves / variaveis**/
 	private boolean check_token(char c) throws IOException{
-		String word = Character.toString(c);
+		String word = Character.toString(c).toLowerCase();
+                System.out.println(word);
 		
 		while(bf.ready()){
 			bf.mark(2);
@@ -163,8 +164,7 @@ public class AnalisadorLexico {
 			/**Verifica se é uma palavra chave, comparando-o com todas as possíveis palavras chaves**/
 			if(word.matches("[Bb]oolean") || word.matches("[Bb]egin") || word.matches("[Ii]nteger") || word.matches("[Ii]f") || word.matches("[Ee]lse") || 
 			word.matches("[Ee]nd") || word.matches("[Vv]ar") || word.matches("[Rr]eal") || word.matches("[Tt]hen") || word.matches("[Pp]rogram") ||
-			word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot") 
-                                || word.matches("[Bb]egin"))
+			word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot"))
 				add_key_word(word);
 			else if(word.matches("and")){
 				String[] s = {word, "Operador Multiplicativo", Integer.toString(nLine)};
