@@ -49,7 +49,7 @@ public class AnalisadorLexico {
 					continue;
 				}else{
 					bf.reset();
-					String[] s = {Character.toString(c), "Operador Multiplicativo", Integer.toString(nLine)};
+					String[] s = {Character.toString(c), RecuperaToken("*").toString(), Integer.toString(nLine)};
 					token_table.add(s);
 					continue;
 				}
@@ -75,28 +75,28 @@ public class AnalisadorLexico {
 					bf.mark(2);
 					char aux = (char)bf.read();
 					if(aux == '='){ //Operador de atribuição
-						String[] s = {Character.toString(c) + Character.toString(aux), "Operador de Atribuição", Integer.toString(nLine)};
+						String[] s = {Character.toString(c) + Character.toString(aux), RecuperaToken(Character.toString(c) + Character.toString(aux)).toString(), Integer.toString(nLine)};
 						token_table.add(s);
 						continue;
 					}
 				}
-				String[] s = {Character.toString(c), "Delimitador", Integer.toString(nLine)};
+				String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
 				token_table.add(s);
 			}else if(c == '+' || c == '-'){
-				String[] s = {Character.toString(c), "Operador Aditivo", Integer.toString(nLine)};
+				String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
 				token_table.add(s);
 			}else if(c == '*' || c == '/'){
-				String[] s = {Character.toString(c), "Operador Multiplicativo", Integer.toString(nLine)};
+				String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
 				token_table.add(s);
 			}else if(c == '<' || c == '>' || c == '='){
 				bf.mark(2);
 				char aux = (char)bf.read();
 				if((c == '<' && aux == '=') || (c == '<' && aux == '>') || (c == '>' && aux == '=')){
-					String[] s = {Character.toString(c) + Character.toString(aux), "Operador Relacional", Integer.toString(nLine)};
+					String[] s = {Character.toString(c) + Character.toString(aux), RecuperaToken(Character.toString(c) + Character.toString(c)).toString(), Integer.toString(nLine)};
 					token_table.add(s);
 				}else{
 					bf.reset();
-					String[] s = {Character.toString(c), "Operador Relacional", Integer.toString(nLine)};
+					String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
 					token_table.add(s);
 				}
 				
@@ -131,7 +131,7 @@ public class AnalisadorLexico {
 	/**Verificar o identificador de palavras chaves / variaveis**/
 	private boolean check_token(char c) throws IOException{
 		String word = Character.toString(c).toLowerCase();
-                System.out.println(word);
+                //System.out.println(word);
 		
 		while(bf.ready()){
 			bf.mark(2);
@@ -155,13 +155,16 @@ public class AnalisadorLexico {
 				continue;
 			}
 			
-			word = word.concat(Character.toString(c));
+			word = word.concat(Character.toString(c).toLowerCase());
 		}
 		
 		//System.out.println("palavra: " + word);
 		
 		if(word.matches("\\w[\\w|\\d|\\_]*")){ //Representa um identificador válido, tanto para uma variável quanto para uma palavra chave
 			/**Verifica se é uma palavra chave, comparando-o com todas as possíveis palavras chaves**/
+                       
+                        
+                        
 			if(word.matches("[Bb]oolean") || word.matches("[Bb]egin") || word.matches("[Ii]nteger") || word.matches("[Ii]f") || word.matches("[Ee]lse") || 
 			word.matches("[Ee]nd") || word.matches("[Vv]ar") || word.matches("[Rr]eal") || word.matches("[Tt]hen") || word.matches("[Pp]rogram") ||
 			word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot"))
@@ -186,12 +189,13 @@ public class AnalisadorLexico {
 	/**----------------------------------------------------------------------------------------------------------------------------------------------**/
 	
 	private void add_key_word(String word){
-		String[] s = {word, "Palavra Reservada", Integer.toString(nLine)};
+            
+		String[] s = {word, RecuperaToken(word).toString(), Integer.toString(nLine)};
 		token_table.add(s);
 	}
 	
 	private void add_id(String id){
-		String[] s = {id, "Identificador", Integer.toString(nLine)};
+		String[] s = {id, RecuperaToken("Identificador").toString(), Integer.toString(nLine)};
 		token_table.add(s);
 	}
 	
@@ -267,12 +271,7 @@ public class AnalisadorLexico {
 			final_state = true;
 		}else if(word.matches("\\d+")){
 			//System.out.println("Numero Inteiro");
-			String[] s = {word, "Número Inteiro", Integer.toString(nLine)};
-			token_table.add(s);
-			final_state = true;
-		}else if(word.matches("\\d+i[+-]\\d+")){
-			//System.out.println("Numero Complexo");
-			String[] s = {word, "Número Complexo", Integer.toString(nLine)};
+			String[] s = {word, RecuperaToken("Inteiro").toString(), Integer.toString(nLine)};
 			token_table.add(s);
 			final_state = true;
 		}
@@ -288,5 +287,16 @@ public class AnalisadorLexico {
 		return final_state;
 		
 	}
+        
+        public Integer RecuperaToken(String word){
+            Token token = new Token();
+            Integer codigoToken = 0;
+            codigoToken = token.RecuperaCodigoTerminal(word);
+
+            if (codigoToken == 0) {
+                codigoToken = token.RecuperaCodigoNaoTerminal(word);
+            }
+            return codigoToken;
+        }
 
 }
