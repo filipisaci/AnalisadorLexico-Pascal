@@ -8,6 +8,8 @@ public class AnalisadorLexico {
     private ArrayList<String[]> token_table = new ArrayList<String[]>();
     private BufferedReader bf;
     private int nLine; //Usado para identificar o numero da linha
+    private Integer inicio = 0;
+    private String palavra = "";
 
     public AnalisadorLexico(BufferedReader file) {
         bf = file;
@@ -22,11 +24,6 @@ public class AnalisadorLexico {
 
         while (bf.ready()) {
             c = (char) bf.read();
-            
-            //System.out.println(bf.ready());
-//            System.out.println(bf.readLine());
-//            InicioDeLinha(bf.readLine(), nLine);
-            
             if (c == ' ' || c == '\t' || c == '\r') { //Desconsidera espaço em branco
                 continue;
             }
@@ -35,7 +32,7 @@ public class AnalisadorLexico {
                 nLine++;
                 continue;
             }
-            
+
             if (c == 39) {
                 /**
                  * Verifica String*
@@ -176,6 +173,9 @@ public class AnalisadorLexico {
              * Verifica se é uma palavra chave, comparando-o com todas as
              * possíveis palavras chaves*
              */
+
+            InicioDeLinha(word, nLine);
+
             if (word.matches("[Bb]oolean") || word.matches("[Bb]egin") || word.matches("[Ii]nteger") || word.matches("[Ii]f") || word.matches("[Ee]lse")
                     || word.matches("[Ee]nd") || word.matches("[Vv]ar") || word.matches("[Rr]eal") || word.matches("[Tt]hen") || word.matches("[Pp]rogram")
                     || word.matches("[Rr]eadln") || word.matches("[Ww]riteln") || word.matches("[Pp]rocedure") || word.matches("[Ww]hile") || word.matches("[Dd]o") || word.matches("[Nn]ot")) {
@@ -316,21 +316,15 @@ public class AnalisadorLexico {
         return codigoToken;
     }
 
-    public Boolean InicioDeLinha(String word, Integer nLine) {
-        String aux = "";
-        if(nLine != 1) {
-            return true;
-        }
-        
-        for (int i = 1; i < word.length(); i++) {
-            if (word.equals(' ')) {
-                if(aux.toLowerCase().trim().equals("program")) {
-                    return false;
-                }
+    public void InicioDeLinha(String word, Integer nLine) {
+        if (nLine == 1 ) {
+            palavra = palavra.concat(word);
+            if (palavra.matches("^program.*") && (inicio == 0)) {
+                inicio++;
+            } else if (inicio  == 0) {
+                System.out.println("Erro, token esperado: Program");
+                inicio++;
             }
-            aux = aux.concat(word.toLowerCase());
         }
-        return true;
     }
-
 }

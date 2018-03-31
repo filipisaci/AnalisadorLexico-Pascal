@@ -1,4 +1,4 @@
-kflsçkskfjsdf Program TESTE123;
+Program TESTE123;
     Var X, Y, Z : Integer;
 Begin
     readln(X);
