@@ -12,4 +12,4 @@ Procedure EXECUTE_TESTE(Interger I, String S)
     If((I >= 150 Or S = 'TESTE') And I < 200)Then
     Begin
     Writeln ('PASSOU NO TESTE');
-End;
+En
