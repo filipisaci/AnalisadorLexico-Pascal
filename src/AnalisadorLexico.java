@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -7,7 +6,7 @@ public class AnalisadorLexico {
 
     private ArrayList<String[]> token_table = new ArrayList<String[]>();
     private BufferedReader bf;
-    private int nLine; //Usado para identificar o numero da linha
+    private int nLine;
     private Integer inicio = 0;
     private String palavra = "";
 
@@ -27,16 +26,12 @@ public class AnalisadorLexico {
             if (c == ' ' || c == '\t' || c == '\r') { //Desconsidera espaço em branco
                 continue;
             }
-            if (c == '\n') { //Conta linha
-                //System.out.println("Escape");
+            if (c == '\n') {
                 nLine++;
                 continue;
             }
 
             if (c == 39) {
-                /**
-                 * Verifica String*
-                 */
                 while (c != 39) {
                     c = (char) bf.read();
                     if (!bf.ready()) {
@@ -61,14 +56,13 @@ public class AnalisadorLexico {
                 }
             }
 
-            //System.out.println(c);
-            if ((65 <= c && c <= 90) || (97 <= c && c <= 122)) { //Verifica se C é uma letra
+            if ((65 <= c && c <= 90) || (97 <= c && c <= 122)) {
                 if (check_token(c))
-					;//System.out.println("Identificador válido");
+					;
                 else {
                     System.out.println("Erro: identificador inválido. Linha " + nLine);
                 }
-            } else if (48 <= c && c <= 57) { //Verifica se C é um numero
+            } else if (48 <= c && c <= 57) {
                 if (check_number(c)); else {
                     System.out.println("Erro, Número inválido. Linha " + nLine);
                     break;
@@ -131,12 +125,6 @@ public class AnalisadorLexico {
         return this.token_table;
     }
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------------------------------------*
-     */
-    /**
-     * Verificar o identificador de palavras chaves / variaveis*
-     */
     private boolean check_token(char c) throws IOException {
         String word = Character.toString(c).toLowerCase();
         //System.out.println(word);
@@ -167,12 +155,7 @@ public class AnalisadorLexico {
             word = word.concat(Character.toString(c).toLowerCase());
         }
 
-        //System.out.println("palavra: " + word);
-        if (word.matches("\\w[\\w|\\d|\\_]*")) { //Representa um identificador válido, tanto para uma variável quanto para uma palavra chave
-            /**
-             * Verifica se é uma palavra chave, comparando-o com todas as
-             * possíveis palavras chaves*
-             */
+        if (word.matches("\\w[\\w|\\d|\\_]*")) { 
 
             InicioDeLinha(word, nLine);
 
@@ -213,11 +196,6 @@ public class AnalisadorLexico {
         token_table.add(s);
     }
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------------------------------------
-     *
-     * @throws IOException *
-     */
     private boolean check_number(char c) throws IOException {
 
         String word = Character.toString(c);
@@ -279,21 +257,17 @@ public class AnalisadorLexico {
             word = word.concat(Character.toString(c));
         }
 
-        //System.out.println("word: " + word);
         if (word.matches("\\d+\\.\\d+")) {
-            //System.out.println("Numero Real");
             String[] s = {word, "Número Real", Integer.toString(nLine)};
             token_table.add(s);
             final_state = true;
         } else if (word.matches("\\d+")) {
-            //System.out.println("Numero Inteiro");
             String[] s = {word, RecuperaToken("Inteiro").toString(), Integer.toString(nLine)};
             token_table.add(s);
             final_state = true;
         }
 
         if (aux == c) {
-            //System.out.println("Check id");
             if (check_token(aux)) {
                 final_state = true;
             } else {

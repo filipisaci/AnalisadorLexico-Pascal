@@ -2,33 +2,26 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import javax.swing.JOptionPane;
 import java.util.ArrayList;
 
 public class Main {
 
 	public static void main(String[] args) {
             
-//            char c = '\'';
-//            System.out.println(Integer.valueOf(c));
-            
 		
 		try{
 			ArrayList <String[]> lexic_table;
-			//String dir = JOptionPane.showInputDialog(null, "Digite o diretorio do arquivo");
-			FileReader file = new FileReader("codigofonte.txt"); //Localizacao do arquivo
-			BufferedReader arq = new BufferedReader(file);
+			FileReader file = new FileReader("codigofonte.txt");
+			BufferedReader arquivo = new BufferedReader(file);
 			
-			AnalisadorLexico al = new AnalisadorLexico(arq);
-			al.analisar();
-			al.show_table();
-			lexic_table = al.return_table();
+			AnalisadorLexico analisador = new AnalisadorLexico(arquivo);
+			analisador.analisar();
+			analisador.show_table();
+			lexic_table = analisador.return_table();
 			
-			arq.close();
+			arquivo.close();
 			file.close();
 			
-			//AnalisadorSintatico as = new AnalisadorSintatico(lexic_table);
-			//as.analisar();
 			
 		}catch(FileNotFoundException fnf){
 			System.out.println("Arquivo nao encontrado");
