@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,14 +33,39 @@ public class AnalisadorLexico {
             }
 
             if (c == 39) {
-                while (c != 39) {
-                    c = (char) bf.read();
+                String word = "";
+                char aux = ' ';
+                while (aux != 39) {
+                    aux = (char) bf.read();
+                    word = word.concat(Character.toString(aux));
                     if (!bf.ready()) {
                         System.out.println("Erro: String não fechada. Linha " + nLine);
                         break;
                     }
                 }
+                word = word.substring(0, word.length() - 1);
+                add_id(word);
                 continue;
+            }
+
+            if (c == '(') {
+                bf.mark(2);
+                String word = "";
+                char aux = (char) bf.read();
+                if (aux == 39) {
+                    while (c != ')') {
+                        c = (char) bf.read();
+                        word = word.concat(Character.toString(c));
+                        if (!bf.ready()) {
+                            System.out.println("Erro: String não fechada. Linha " + nLine);
+                            break;
+                        }
+                    }
+                    word = word.substring(0, word.length() - 2);
+                    add_id(word);
+                    continue;
+                }
+                bf.reset();
             }
 
             bf.mark(2);
@@ -58,8 +84,7 @@ public class AnalisadorLexico {
 
             if ((65 <= c && c <= 90) || (97 <= c && c <= 122)) {
                 if (check_token(c))
-					;
-                else {
+					; else {
                     System.out.println("Erro: identificador inválido. Linha " + nLine);
                 }
             } else if (48 <= c && c <= 57) {
@@ -78,6 +103,23 @@ public class AnalisadorLexico {
                         continue;
                     }
                 }
+
+                if (c == '(') { //Verifica se é um comentário
+                    bf.mark(2);
+                    char aux = (char) bf.read();
+                    if (aux == '*') {
+                        // validar se está ok
+                        while (c != ')') {
+                            c = (char) bf.read();
+                            if (!bf.ready()) {
+                                System.out.println("Comentario nao fechado");
+                                break;
+                            }
+                        }
+                        continue;
+                    }
+                }
+
                 String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
                 token_table.add(s);
             } else if (c == '+' || c == '-') {
@@ -107,9 +149,6 @@ public class AnalisadorLexico {
 
     }
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------------------------------------*
-     */
     public void show_table() {
         System.out.println("\nTabela de Símbolos");
         System.out.println("Token\t\t\tClassificação\t\t\tLinha");
@@ -141,21 +180,25 @@ public class AnalisadorLexico {
                 bf.reset();
                 break;
             }
+
+            /*
             if (c == 39) {
                 while (c != 39) {
                     c = (char) bf.read();
+                    System.out.println(c);
                 }
                 if (!bf.ready()) {
                     System.out.println("Erro: Comentário não fechado");
                     break;
                 }
+                System.out.println(c);
                 continue;
             }
-
+             */
             word = word.concat(Character.toString(c).toLowerCase());
         }
 
-        if (word.matches("\\w[\\w|\\d|\\_]*")) { 
+        if (word.matches("\\w[\\w|\\d|\\_]*")) {
 
             InicioDeLinha(word, nLine);
 
@@ -182,9 +225,6 @@ public class AnalisadorLexico {
         }
     }
 
-    /**
-     * ----------------------------------------------------------------------------------------------------------------------------------------------*
-     */
     private void add_key_word(String word) {
 
         String[] s = {word, RecuperaToken(word).toString(), Integer.toString(nLine)};
@@ -291,14 +331,32 @@ public class AnalisadorLexico {
     }
 
     public void InicioDeLinha(String word, Integer nLine) {
-        if (nLine == 1 ) {
+        if (nLine == 1) {
             palavra = palavra.concat(word);
             if (palavra.matches("^program.*") && (inicio == 0)) {
                 inicio++;
-            } else if (inicio  == 0) {
+            } else if (inicio == 0) {
                 System.out.println("Erro, token esperado: Program");
                 inicio++;
             }
         }
+    }
+
+    public String validaString(char c) throws IOException {
+        String word = "";
+        if (c == 39) {
+            char aux = ' ';
+            while (aux != 39) {
+                aux = (char) bf.read();
+                word = word.concat(Character.toString(aux));
+                if (!bf.ready()) {
+                    System.out.println("Erro: String não fechada. Linha " + nLine);
+                    break;
+                }
+            }
+            word = word.substring(0, word.length() - 1);
+            System.out.println(word);
+        }
+        return word;
     }
 }

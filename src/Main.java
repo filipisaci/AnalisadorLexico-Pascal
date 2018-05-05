@@ -18,11 +18,10 @@ public class Main {
 			analisador.analisar();
 			analisador.show_table();
 			lexic_table = analisador.return_table();
-			
+
 			arquivo.close();
 			file.close();
-			
-			
+
 		}catch(FileNotFoundException fnf){
 			System.out.println("Arquivo nao encontrado");
 		}catch(IOException ioe){
