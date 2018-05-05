@@ -1,2 +1,5 @@
 # Compiladores
-Projeto de compiladores contendo o analisador léxico, sintático e semântico de uma linguagem pseudo pascal.
+
+Codigo adaptado de: https://github.com/JonyLucas/Compila
+
+Analisador Léxico em Java para pseudo Pascal.
