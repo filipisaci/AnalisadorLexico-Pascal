@@ -44,7 +44,8 @@ public class AnalisadorLexico {
                     }
                 }
                 word = word.substring(0, word.length() - 1);
-                add_id(word);
+                String[] s = {word, RecuperaToken("literal").toString(), Integer.toString(nLine)};
+                token_table.add(s);
                 continue;
             }
 
@@ -62,7 +63,8 @@ public class AnalisadorLexico {
                         }
                     }
                     word = word.substring(0, word.length() - 2);
-                    add_id(word);
+                    String[] s = {word, RecuperaToken("literal").toString(), Integer.toString(nLine)};
+                    token_table.add(s);
                     continue;
                 }
                 bf.reset();
