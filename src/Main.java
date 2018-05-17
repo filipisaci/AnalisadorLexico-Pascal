@@ -16,11 +16,14 @@ public class Main {
 
             AnalisadorLexico analisador = new AnalisadorLexico(arquivo);
             analisador.analisar();
-            analisador.show_table();
+            //analisador.show_table();
             lexic_table = analisador.return_table();
 
             arquivo.close();
             file.close();
+            
+            AnalisadorSintaticoGama sintatico = new AnalisadorSintaticoGama();
+            sintatico.AnalisarSintaxe(lexic_table);
             
         } catch (FileNotFoundException fnf) {
             System.out.println("Arquivo nao encontrado");

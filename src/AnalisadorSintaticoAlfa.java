@@ -21,15 +21,15 @@ public class AnalisadorSintaticoAlfa {
     public ArrayList<ErrosSintaticos> listaErros = new ArrayList<>();
     
     public void AnalisarSintaxe(ArrayList <String[]> tabelaToken) {
-        String valorToken = "";    
+        String instrucao = "";    
         int identificadorToken = 0;
         int proximoIdentificadorToken = 0;
         int linha = 0;
         int sequencial = 0;
-        
+            
         for (int i = 0; i < tabelaToken.size() - 1; i++) {
             proximoIdentificadorToken = 0;
-            valorToken = tabelaToken.get(i)[0];
+            instrucao = tabelaToken.get(i)[0];
             identificadorToken = Integer.valueOf(tabelaToken.get(i)[1]);
             
             if ( i <= tabelaToken.size()) {
@@ -39,9 +39,11 @@ public class AnalisadorSintaticoAlfa {
             linha = Integer.valueOf(tabelaToken.get(i)[2]);            
             sequencial++;
             
-           // if (sequencial == 1) {
-              //  ValidaProducao01(valorToken, proximoIdentificadorToken , linha);
-           // }                        
+            
+            if (sequencial == 1) {
+                ValidaProducao01(instrucao, proximoIdentificadorToken , identificadorToken, linha);
+            } 
+            
         }    
         
         for (ErrosSintaticos item : listaErros) {
@@ -53,18 +55,40 @@ public class AnalisadorSintaticoAlfa {
     public void ValidaProducao01( String instrucao, int seqClassificacao01, int seqClassificacao02, int linha ){
         
         if (!instrucao.toLowerCase().trim().equals("program") ) {           
-            AddErroSintatico("O programa deve iniciar com program. Linha: ", linha);
+            AddErroSintatico("Erro! O programa deve iniciar com o token program na linha: ", linha);
         }
         
         //-- Verifica o nome do programa
         if (seqClassificacao01 != 25) {
-            AddErroSintatico("Esperado o nome do programa, encontrado outra coisa =D", linha);
+            AddErroSintatico("Erro! Esperado o nome do programa na linha:", linha);
         }
         
         //-- Valida ponto e virgula, caracter terminal
         if (seqClassificacao02 != 47) {
-            AddErroSintatico("Esperado o ; encontrado outra coisa =D", linha);
+            AddErroSintatico("Erro! Esperado o token ; na linha: ", linha);
         }
+        
+    }
+    
+    public void ValidaProducao02( String instrucao, int seqClassificacao01, int seqClassificacao02, int linha ){
+        
+    }
+    
+    public void ValidaVariavel(String instrucao, int seqClassificacao01, int seqClassificacao02, int linha ){
+        if ( !instrucao.toLowerCase().trim().equals("var")) {
+            AddErroSintatico("Erro de sintax (var) na linha: ", linha);
+        }
+        
+        //-- Valida label ID
+        if (seqClassificacao01 != 25) {
+            AddErroSintatico("Erro de sintax (var) na linha: ", linha);
+        }
+        
+        //-- Valida operador
+        if (seqClassificacao02 != 39) {
+            AddErroSintatico("Erro de sintax (var) na linha: ", linha);
+        }
+        
         
     }
     
@@ -74,5 +98,4 @@ public class AnalisadorSintaticoAlfa {
         errosSintaticos.Linha = linha;
         listaErros.add(errosSintaticos);
     }
-    
 }

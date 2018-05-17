@@ -20,7 +20,7 @@ public class AnalisadorLexico {
 
         char c;
 
-        System.out.println("Inicio da analise Léxica\n");
+        System.out.println("Inicio da análise léxica\n");
 
         while (bf.ready()) {
             c = (char) bf.read();

@@ -1,5 +1,5 @@
 Program TESTE123;
-    Var nome : String;
+    Var nome : Integer;
     Var X, Y, Z : Integer;
     (*Comentario*)
 Begin
