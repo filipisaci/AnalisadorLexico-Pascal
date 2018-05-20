@@ -54,7 +54,7 @@ public class Token {
         mapTokenTerminal.put(42,">=");
         mapTokenTerminal.put(43,"<");
         mapTokenTerminal.put(44,"<=");
-        mapTokenTerminal.put(45,"< >");
+        mapTokenTerminal.put(45,"<>");
         mapTokenTerminal.put(46,",");
         mapTokenTerminal.put(47,";");
         mapTokenTerminal.put(48,"literal");

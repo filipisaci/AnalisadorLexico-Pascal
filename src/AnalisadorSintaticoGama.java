@@ -51,6 +51,8 @@ public class AnalisadorSintaticoGama {
             if(lexema.equals("38")){
                 ValidaAtribuicao(tabelaToken.get(i)[1], tabelaToken.get(i+2)[1], linha);
             }
+            
+            AddErroSintatico(instrucao, linha);
         }
 
         for (ErrosSintaticos item : listaErros) {

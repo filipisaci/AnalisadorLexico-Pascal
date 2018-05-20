@@ -94,7 +94,7 @@ public class AnalisadorLexico {
                     System.out.println("Erro, Número inválido. Linha " + nLine);
                     break;
                 }
-
+            
             } else if (c == ';' || c == '.' || c == '(' || c == ')' || c == ',' || c == ':') { //Verifica se C é um delimitador
                 if (c == ':') { //Verifica se é o operador de atribuição
                     bf.mark(2);
@@ -130,11 +130,13 @@ public class AnalisadorLexico {
             } else if (c == '*' || c == '/') {
                 String[] s = {Character.toString(c), RecuperaToken(Character.toString(c)).toString(), Integer.toString(nLine)};
                 token_table.add(s);
-            } else if (c == '<' || c == '>' || c == '=') {
+            
+            } 
+            else if (c == '<' || c == '>' || c == '=') {
                 bf.mark(2);
                 char aux = (char) bf.read();
                 if ((c == '<' && aux == '=') || (c == '<' && aux == '>') || (c == '>' && aux == '=')) {
-                    String[] s = {Character.toString(c) + Character.toString(aux), RecuperaToken(Character.toString(c) + Character.toString(c)).toString(), Integer.toString(nLine)};
+                    String[] s = {Character.toString(c) + Character.toString(aux), RecuperaToken(Character.toString(c) + Character.toString(aux)).toString(), Integer.toString(nLine)};
                     token_table.add(s);
                 } else {
                     bf.reset();

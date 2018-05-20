@@ -11,22 +11,22 @@ public class Main {
 
         try {
             ArrayList<String[]> lexic_table;
-            FileReader file = new FileReader("codigofonte.txt");
+            FileReader file = new FileReader("codigofonte10.txt");
             BufferedReader arquivo = new BufferedReader(file);
 
             AnalisadorLexico analisador = new AnalisadorLexico(arquivo);
             analisador.analisar();
-            //analisador.show_table();
+            analisador.show_table();
             lexic_table = analisador.return_table();
 
             arquivo.close();
             file.close();
-            
-            AnalisadorSintaticoGama sintatico = new AnalisadorSintaticoGama();
-            sintatico.AnalisarSintaxe(lexic_table);
-            
+
+            AnalisadorSintatico as = new AnalisadorSintatico(lexic_table);
+            as.analisar();
+
         } catch (FileNotFoundException fnf) {
-            System.out.println("Arquivo nao encontrado");
+            System.out.println("Arquivo de entrada nao encontrado");
         } catch (IOException ioe) {
             System.out.println("Erro");
         } catch (Exception e) {
