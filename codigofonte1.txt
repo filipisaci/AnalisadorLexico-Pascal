@@ -1,6 +1,6 @@
 Program TESTE123;
     Var nome : Integer;
-    (*Var X, Y, Z : Integer;*)
+    Var X, Y, Z : Integer;
     (*Comentario*)
 Begin
     nome := 'Filipi Souza';

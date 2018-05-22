@@ -11,7 +11,7 @@ public class Main {
 
         try {
             ArrayList<String[]> lexic_table;
-            FileReader file = new FileReader("codigofonte10.txt");
+            FileReader file = new FileReader("codigofonte1.txt");
             BufferedReader arquivo = new BufferedReader(file);
 
             AnalisadorLexico analisador = new AnalisadorLexico(arquivo);
@@ -21,9 +21,9 @@ public class Main {
 
             arquivo.close();
             file.close();
-
-            AnalisadorSintatico as = new AnalisadorSintatico(lexic_table);
-            as.analisar();
+                
+            AnalisadorSintaticoAlfa as = new AnalisadorSintaticoAlfa();
+            as.AnalisarSintaxe(lexic_table);
 
         } catch (FileNotFoundException fnf) {
             System.out.println("Arquivo de entrada nao encontrado");
