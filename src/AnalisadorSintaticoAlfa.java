@@ -21,40 +21,74 @@ public class AnalisadorSintaticoAlfa {
     public ArrayList<ErrosSintaticos> listaErros = new ArrayList<>();
     
     public void AnalisarSintaxe(ArrayList <String[]> tabelaToken) {
-        String instrucao = "";    
-        int identificadorToken = 0;
-        int proximoIdentificadorToken = 0;
-        int aux = 0;
-        int aux2 = 0;
-        int linha = 0;
-        int sequencial = 0;
+        Integer linha = 0;
+        Integer sequencial = 0;
+        Boolean validadoUmaVez = false;
             
         for (int i = 0; i < tabelaToken.size() - 1; i++) {
             
-            linha = Integer.valueOf(tabelaToken.get(i)[2]);            
+            linha = Integer.valueOf(tabelaToken.get(i)[2]);
             sequencial++;
+            validadoUmaVez = false;
             
             if (sequencial == 1) {
-                instrucao = tabelaToken.get(i)[0];
-                identificadorToken = Integer.valueOf(tabelaToken.get(i+2)[1]);
-                proximoIdentificadorToken = Integer.valueOf(tabelaToken.get(i + 1)[1]);
-                ValidaProducao01(instrucao, proximoIdentificadorToken , identificadorToken, linha);
+                validadoUmaVez = true;
+                ValidaProducao01(
+                        tabelaToken.get(i)[0], 
+                        Integer.valueOf(tabelaToken.get(i + 1)[1]), 
+                        Integer.valueOf(tabelaToken.get(i + 2)[1]), 
+                        linha);
             }
             
             if (sequencial == 4) {
-                instrucao = tabelaToken.get(i)[0];
-                identificadorToken = Integer.valueOf(tabelaToken.get(i+2)[1]);
-                proximoIdentificadorToken = Integer.valueOf(tabelaToken.get(i + 1)[1]);
-                aux = Integer.valueOf(tabelaToken.get(i + 3)[1]);
-                aux2 = Integer.valueOf(tabelaToken.get(i + 4)[1]);
-                ValidaVariavel(instrucao, proximoIdentificadorToken, identificadorToken, aux, aux2, linha);
+                validadoUmaVez = true;
+                ValidaVariavel(
+                        tabelaToken.get(i)[0], 
+                        Integer.valueOf(tabelaToken.get(i + 1)[1]), 
+                        Integer.valueOf(tabelaToken.get(i + 2)[1]), 
+                        Integer.valueOf(tabelaToken.get(i + 3)[1]), 
+                        Integer.valueOf(tabelaToken.get(i + 4)[1]), 
+                        linha);
             }
             
             // valida atribuicao de variavel
             if(tabelaToken.get(i)[1].equals("38")){
+                validadoUmaVez = true;
                 ValidaAtribuicao(tabelaToken.get(i-1)[1], tabelaToken.get(i+1)[1], tabelaToken.get(i+2)[1], linha);
             }
             
+            if(tabelaToken.get(i)[1].equals("21")) {
+                validadoUmaVez = true;
+                validaWriteln(tabelaToken.get(i+1)[1], tabelaToken.get(i+2)[1], linha);
+            }
+            /*
+            if(tabelaToken.get(i)[1].equals("20")) {
+                validaReadln(tabelaToken.get(i+1)[1], tabelaToken.get(i+2)[1], linha);
+            }
+            */
+            
+            // Valida o IF
+            if(tabelaToken.get(i)[1].equals("13")) {
+                validadoUmaVez = true;
+                validaIf(
+                        tabelaToken.get(i+1)[1], 
+                        tabelaToken.get(i+2)[1],  
+                        tabelaToken.get(i+3)[1],
+                        tabelaToken.get(i+4)[1],
+                        linha);
+            }
+            
+            // Valida o Else
+            if(tabelaToken.get(i)[1].equals("15")) {
+                validadoUmaVez = true;
+                validaElse(
+                        tabelaToken.get(i)[1], 
+                        linha);
+            }
+            
+            //if(validadoUmaVez == false) {
+            //    AddErroSintatico("Erro de sintax desconhecido!", linha);
+            //}
         }    
         
         for (ErrosSintaticos item : listaErros) {
@@ -116,7 +150,7 @@ public class AnalisadorSintaticoAlfa {
         if(!anterior.equals("25")) {
             AddErroSintatico("atribuicao", linha);
         }
-        if(!(proximo.equals("48") || proximo.equals("26") || proximo.equals("36"))){
+        if(!(proximo.equals("48") || proximo.equals("25") || proximo.equals("26") || proximo.equals("36"))){
             AddErroSintatico("atribuicao", linha);
         }
         
@@ -126,6 +160,53 @@ public class AnalisadorSintaticoAlfa {
         }
     }
         
+    public void validaWriteln(String proximo, String terminador, Integer linha) {
+        if(!proximo.equals("48")) {
+            AddErroSintatico("writeln", linha);
+        }
+        if(!terminador.equals("47")) {
+            AddErroSintatico("writeln", linha);
+        }
+    }
+    
+    /*
+    public void validaReadln(String proximo, String terminador, Integer linha) {
+        if(!proximo.equals("48")) {
+            AddErroSintatico("Readln", linha);
+        }
+        if(!terminador.equals("47")) {
+            AddErroSintatico("Readln", linha);
+        }
+    }*/
+    
+    public void validaIf(String seqClassificacao01, 
+            String seqClassificacao02, String seqClassificacao03, String seqClassificacao04, Integer linha ){
+        
+        //-- Valida label ID
+        if (!(seqClassificacao01.equals("25")|| seqClassificacao03.equals("26"))) {
+            AddErroSintatico("Erro de sintax (IF) na linha: ", linha);
+        }
+        
+        //-- Valida operador
+        if (!(seqClassificacao02.equals("40") || seqClassificacao02.equals("41") 
+                || seqClassificacao02.equals("42") || seqClassificacao02.equals("43")
+                || seqClassificacao02.equals("44") || seqClassificacao02.equals("45"))) {
+            AddErroSintatico("Erro de sintax (IF) na linha: ", linha);
+        }
+        
+        if (!seqClassificacao03.equals("26")) {
+            AddErroSintatico("Erro de sintax (IF) na linha: ", linha);
+        }
+        
+        if (!seqClassificacao04.equals("14")) {
+            AddErroSintatico("Erro de sintax (IF) na linha: ", linha);
+        }
+    }
+    
+    public void validaElse(String instrucao, Integer linha){
+            
+    }
+    
     public void AddErroSintatico(String mensagem, int linha){
         ErrosSintaticos errosSintaticos  = new ErrosSintaticos();
         errosSintaticos.Mensagem = mensagem;

@@ -5,6 +5,7 @@ Program TESTE123;
 Begin
     nome := 'Filipi Souza';
     (*Comentario novo*)
+    Readln(x); 
     X := 1000;
     Z := (X * Y);
     Writeln ('O RESULTADO ESTA OK');

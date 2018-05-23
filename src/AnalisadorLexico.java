@@ -53,6 +53,7 @@ public class AnalisadorLexico {
                 bf.mark(2);
                 String word = "";
                 char aux = (char) bf.read();
+                //c = aux;
                 if (aux == 39) {
                     while (c != ')') {
                         c = (char) bf.read();
@@ -67,6 +68,8 @@ public class AnalisadorLexico {
                     token_table.add(s);
                     continue;
                 }
+                //String[] s = {String.valueOf(aux), RecuperaToken("indentificador").toString(), Integer.toString(nLine)};
+                //token_table.add(s);
                 bf.reset();
             }
 

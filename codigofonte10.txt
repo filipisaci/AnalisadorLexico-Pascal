@@ -1,16 +1,22 @@
 Program resultado; 
-	Var N1, N2, N3 : Integer;
-	S,M : Integer;
-	Result, booleana : Integer;
-
+	Var N1 : Integer;
+	Var N2 : Integer;
+	Var N3 : Integer;
+	Var S : Integer;
+	Var M : Integer;
+	Result : Integer;
+	
 	Begin
-		N1:= 7 ;
-		N2:= 5 ;
-		N3:= 4 ;
-		S:=N1+N2+N3;
-		M:=S/3;
-		if M <> 5 Then
-			Result := 1
+		N1:= 7;
+		N2:= 5;
+		N3:= 4;
+		S := N1 + N2;
+		S := S + N3;
+		M := S / 3;
+
+		if M <> 5 Thhen
+			Result := 1;
 		else
 			Result := 0;
+
 	End.
