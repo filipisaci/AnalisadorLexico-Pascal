@@ -5,7 +5,7 @@
             <url>src/AnalisadorSintaticoAlfa.java</url>
             <bookmark id="1">
                 <name/>
-                <line>119</line>
+                <line>147</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,8 +14,6 @@
         <group>
             <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/Main.java</file>
             <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/AnalisadorSintaticoAlfa.java</file>
-            <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/AnalisadorSintaticoGama.java</file>
-            <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/AnalisadorSintatico.java</file>
         </group>
     </open-files>
 </project-private>

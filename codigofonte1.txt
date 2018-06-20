@@ -3,11 +3,11 @@ Program TESTE123;
     Var X, Y, Z : Integer;
     (*Comentario*)
 Begin
-    nome := 'Filipi Souza';
+    nome := 'Filipi Souzaaaaaa';
     (*Comentario novo*)
     Readln(x); 
     X := 1000;
-    Z := (X * Y);
+    Z := X + Y;
     Writeln ('O RESULTADO ESTA OK');
     (*Mais um comentario*)
-End;
+End.
