@@ -15,7 +15,7 @@ public class AnalisadorSintaticoAlfa {
             return this.Mensagem;
         }
 
-        public Integer getLinha() {
+        public Integer identifica() {
             return this.Linha;
         }
     }
@@ -32,7 +32,7 @@ public class AnalisadorSintaticoAlfa {
     public ArrayList<ErrosSintaticos> listaErros = new ArrayList<>();
     public ArrayList<TabelaProducao> listaTabelaProducao = new ArrayList<>();
 
-    public void AnalisarSintaxe(ArrayList<String[]> tabelaToken) {
+    public ArrayList<ErrosSintaticos> AnalisarSintaxe(ArrayList<String[]> tabelaToken) {
         Integer linha = 0;
         Integer sequencial = 0;
 
@@ -106,9 +106,11 @@ public class AnalisadorSintaticoAlfa {
         }
 
         for (ErrosSintaticos item : listaErros) {
-            System.out.println(item.getMensagem() + "  " + item.getLinha());
+            System.out.println(item.getMensagem() + "  " + item.identifica());
         }
-
+        
+        return listaErros;
+  
     }
 
     public void ValidaProducao01(String instrucao, int seqClassificacao01, int seqClassificacao02, int linha) {

@@ -4,19 +4,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class AnalisadorLexico {
+    
+    public class ErrosLexicos {
+
+        public String Mensagem;
+        public Integer Linha;
+    }
+    
+    public ArrayList<ErrosLexicos> listErrosLexicos = new ArrayList<>();
 
     private ArrayList<String[]> token_table = new ArrayList<String[]>();
     private BufferedReader bf;
     private int nLine;
     private Integer inicio = 0;
     private String palavra = "";
+    
+    public void InserirErro(String mensagem, Integer linha){
+        ErrosLexicos errosLexicos = new ErrosLexicos();
+        errosLexicos.Mensagem = mensagem;
+        errosLexicos.Linha = linha;
+        
+        listErrosLexicos.add(errosLexicos);
+    }   
 
     public AnalisadorLexico(BufferedReader file) {
         bf = file;
         nLine = 1;
     }
 
-    public void analisar() throws IOException {
+    public ArrayList<ErrosLexicos> analisar() throws IOException {
 
         char c;
 
@@ -40,6 +56,7 @@ public class AnalisadorLexico {
                     word = word.concat(Character.toString(aux));
                     if (!bf.ready()) {
                         System.out.println("Erro: String não fechada. Linha " + nLine);
+                        InserirErro("Erro: String não fechada.", nLine);
                         break;
                     }
                 }
@@ -60,6 +77,7 @@ public class AnalisadorLexico {
                         word = word.concat(Character.toString(c));
                         if (!bf.ready()) {
                             System.out.println("Erro: String não fechada. Linha " + nLine);
+                            InserirErro("Erro: String não fechada. Linha", nLine);
                             break;
                         }
                     }
@@ -91,10 +109,12 @@ public class AnalisadorLexico {
                 if (check_token(c))
 					; else {
                     System.out.println("Erro: identificador inválido. Linha " + nLine);
+                    InserirErro("Erro: identificador inválido. Linha ", nLine);
                 }
             } else if (48 <= c && c <= 57) {
                 if (check_number(c)); else {
                     System.out.println("Erro, Número inválido. Linha " + nLine);
+                    InserirErro("Erro, Número inválido. Linha ", nLine);
                     break;
                 }
             
@@ -118,6 +138,7 @@ public class AnalisadorLexico {
                             c = (char) bf.read();
                             if (!bf.ready()) {
                                 System.out.println("Comentario nao fechado");
+                                InserirErro("Comentario nao fechado", nLine);
                                 break;
                             }
                         }
@@ -149,11 +170,13 @@ public class AnalisadorLexico {
 
             } else {
                 System.out.println("Erro desconhecido. Linha " + nLine);
+                InserirErro("Erro desconhecido. Linha ", nLine);
                 break;
             }
 
         }
 
+        return listErrosLexicos;
     }
 
     public void show_table() {
@@ -267,6 +290,7 @@ public class AnalisadorLexico {
                 }
                 if (!bf.ready()) {
                     System.out.println("Erro: String não fechada");
+                    InserirErro("Erro: String não fechada ", nLine);
                     break;
                 }
                 continue;
@@ -344,6 +368,7 @@ public class AnalisadorLexico {
                 inicio++;
             } else if (inicio == 0) {
                 System.out.println("Erro, token esperado: Program");
+                InserirErro("Erro, token esperado: Program", nLine);
                 inicio++;
             }
         }
@@ -358,6 +383,7 @@ public class AnalisadorLexico {
                 word = word.concat(Character.toString(aux));
                 if (!bf.ready()) {
                     System.out.println("Erro: String não fechada. Linha " + nLine);
+                    InserirErro("Erro: String não fechada. Linha ", nLine);
                     break;
                 }
             }

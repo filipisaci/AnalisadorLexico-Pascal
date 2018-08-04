@@ -5,15 +5,16 @@
             <url>src/AnalisadorSintaticoAlfa.java</url>
             <bookmark id="1">
                 <name/>
-                <line>147</line>
+                <line>149</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/Main.java</file>
-            <file>file:/C:/Users/Filipi/Documents/NetBeans/Compiladores-master-professor/src/AnalisadorSintaticoAlfa.java</file>
+            <file>file:/C:/Users/Filipi/Desktop/AnalisadorLexico-Pascal-master/src/TelaComp.java</file>
+            <file>file:/C:/Users/Filipi/Desktop/AnalisadorLexico-Pascal-master/src/Main.java</file>
+            <file>file:/C:/Users/Filipi/Desktop/AnalisadorLexico-Pascal-master/src/AnalisadorSemantico.java</file>
         </group>
     </open-files>
 </project-private>

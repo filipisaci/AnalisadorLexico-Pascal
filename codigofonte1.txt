@@ -1,13 +1,16 @@
 Program TESTE123;
-    Var nome : Integer;
-    Var X, Y, Z : Integer;
+    Var J : Integer;
+    Var X : Integer;
+	Var K : Integer;
+	Var S : String;	
     (*Comentario*)
-Begin
-    nome := 'Filipi Souzaaaaaa';
-    (*Comentario novo*)
+Begin    
+    (*inicio do programa*)
+	J := 12 + 1;
     Readln(x); 
     X := 1000;
-    Z := X + Y;
+	K := 50;
+	S := 'COMPILADOR';
     Writeln ('O RESULTADO ESTA OK');
     (*Mais um comentario*)
 End.
